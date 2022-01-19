@@ -17,6 +17,10 @@ import idautils
 dec_func = None # addr to decryption function
 
 def get_tinfo_of(api_name):
+    """
+    retrieves type information of API name.
+    Used to apply to renamed imports in IDA, to provide function parameter annotations
+    """
     sym = idaapi.til_symbol_t()
     sym.til = idaapi.cvar.idati
     sym.name = api_name
@@ -55,10 +59,15 @@ def get_ciphertext(func_call):
     
 
 def set_api_type(func_call, api_name):
+    """
+    apply function information from WinAPI to newly created & resolved API in IDA
+    used to provide function parameter annotations
+    """
     curr_addr = func_call
 
     while(True):
         # look for an assignment of the return value in rax to the first global offset
+        # change accordingly with behaviour seen in code
         if idc.print_operand(curr_addr, 1) == "rax" and idc.print_insn_mnem(curr_addr) == "mov":
             api_name_offset = idc.get_operand_value(curr_addr, 0)
             api_tinfo = get_tinfo_of(api_name)
