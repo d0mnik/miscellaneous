@@ -2,7 +2,7 @@ import ida_struct
 import ida_typeinf
 
 def add_struct(name):
-    '''adds a struct into the idb, retiurns a pointer to the struct type info'''
+    '''adds a struct into the idb, returns a pointer to the struct type info'''
 
     ida_struct.add_struc(0, name, 0)
     struct_id = ida_struct.get_struc_id(name)
